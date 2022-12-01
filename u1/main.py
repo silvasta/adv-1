@@ -1,5 +1,6 @@
 from math import dist
 from openpyxl import Workbook
+import csv
 
 def main():
         # Aufgabe 1
@@ -14,9 +15,22 @@ def main():
         # d)
     #create_excel(file)
         # e)
-    distanz2(file)
+    #distanz2(file)
 
     file.close()
+
+        # Aufgabe 2
+        # a)
+    # read_csv()
+        # b)
+    # read_dat()
+        # c)
+    #change_csv()
+        # d)
+    # excel öffnet sich mit Spalten vertauscht
+        # e)
+    sort_csv()
+    
 
 
 def ansatz1(file):
@@ -93,6 +107,47 @@ def distanz2(file):
     sum_meter = int(round(sum, 0))
     print("Die Summe aller Abstände in Metern ist {}".format(sum_meter))
 
+def read_csv():
+    file = open("CH_PLZ_GDE.csv")
+    csvreader = csv.reader(file, delimiter = ";")
+    for line in csvreader:
+        print(line[1])
+
+def read_dat():
+    file = open("CH_PLZ_GDE.dat")
+    csvreader = csv.reader(file, delimiter = " ")
+    for line in csvreader:
+        print(line[1])
+
+def change_csv():
+    input_file = open("CH_PLZ_GDE.csv")
+    csvreader = csv.reader(input_file, delimiter = ";")
+    output_file = open("CH_GDE_PLZ.csv", "wt")
+    csvwriter = csv.writer(output_file, delimiter=";", lineterminator="\n")
+
+    for line in csvreader:
+        csvwriter.writerow([line[1], line[0]])
+
+def sort_csv():
+    input_file = open("CH_PLZ_GDE.csv")
+    csvreader = csv.reader(input_file, delimiter = ";")
+    output_file = open("sorted_CH_GDE_PLZ.csv", "wt")
+    csvwriter = csv.writer(output_file, delimiter=";", lineterminator="\n")
+    gde_list = []
+
+        # sort with dict
+    # for line in csvreader:
+    #     gde_list.append({"PLZ" : line[0], "Gemeinde" : line[1]})
+    # gde_sorted = sorted(gde_list, key= lambda d:d["Gemeinde"])
+    # for line in gde_sorted:
+    #     csvwriter.writerow([line["Gemeinde"], line["PLZ"]])
+
+        # sort with list
+    for line in csvreader:
+        gde_list.append([line[0], line[1]])
+    gde_sorted = sorted(gde_list, key = lambda d:d[1])
+    for line in gde_sorted:
+        csvwriter.writerow([line[1], line[0]])
 
 
 if __name__ == '__main__':
